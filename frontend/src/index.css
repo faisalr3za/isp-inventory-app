@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .scanner-viewfinder {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    border: 2px solid #3b82f6;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+  }
+  
+  .scanner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  }
+  
+  .scanner-target {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 150px;
+    border: 2px solid #22c55e;
+    border-radius: 8px;
+    background: transparent;
+    z-index: 20;
+  }
+  
+  .scanner-target::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    height: 2px;
+    background: #22c55e;
+    animation: scan-line 2s linear infinite;
+    box-shadow: 0 0 10px #22c55e;
+  }
+  
+  .scanner-corners {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .scanner-corners::before,
+  .scanner-corners::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #22c55e;
+  }
+  
+  .scanner-corners::before {
+    top: -3px;
+    left: -3px;
+    border-right: none;
+    border-bottom: none;
+  }
+  
+  .scanner-corners::after {
+    top: -3px;
+    right: -3px;
+    border-left: none;
+    border-bottom: none;
+  }
+  
+  .scanner-bottom-corners::before,
+  .scanner-bottom-corners::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #22c55e;
+  }
+  
+  .scanner-bottom-corners::before {
+    bottom: -3px;
+    left: -3px;
+    border-right: none;
+    border-top: none;
+  }
+  
+  .scanner-bottom-corners::after {
+    bottom: -3px;
+    right: -3px;
+    border-left: none;
+    border-top: none;
+  }
+}
+
+/* Mobile specific styles */
+@media (max-width: 768px) {
+  .scanner-viewfinder {
+    height: 250px;
+    max-width: 350px;
+  }
+  
+  .scanner-target {
+    width: 220px;
+    height: 130px;
+  }
+}
+
+/* PWA specific styles */
+@media (display-mode: standalone) {
+  body {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+}
