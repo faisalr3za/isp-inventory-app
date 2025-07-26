@@ -62,10 +62,18 @@ function AppRoutes() {
   // Public routes
   if (!user) {
     return (
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="*"
+                element={<Navigate to="/login" replace />}
+              />
+            </Routes>
+            <footer className="flex justify-center py-4 border-t">
+              <a href="https://cloudbit.net.id" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                Internet Cepat & Stabil #pilihCloudBit
+              </a>
+            </footer>
     );
   }
 

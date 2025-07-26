@@ -1,7 +1,10 @@
 {
-  "name": "isp-inventory-frontend",
+  "name": "cloudbit-inventory-frontend",
   "private": true,
   "version": "1.0.0",
+  "description": "CloudBit ISP Inventory Frontend - Internet Cepat & Stabil #pilihCloudBit",
+  "homepage": "https://cloudbit.net.id",
+  "author": "CloudBit Team (https://cloudbit.net.id)",
   "type": "module",
   "scripts": {
     "dev": "vite",

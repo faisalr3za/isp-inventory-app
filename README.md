@@ -1,6 +1,10 @@
-# ISP Inventory Management System
+# CloudBit ISP Inventory Management System
 
-A comprehensive inventory management system with barcode/QR code scanning capabilities, built for Internet Service Providers (ISPs) and other businesses requiring efficient inventory tracking.
+**Internet Cepat & Stabil #pilihCloudBit**
+
+A comprehensive inventory management system with barcode/QR code scanning capabilities, built specifically for CloudBit and Internet Service Providers (ISPs) requiring efficient inventory tracking.
+
+*Powered by [CloudBit.net.id](https://cloudbit.net.id) - Internet Cepat & Stabil untuk semua kebutuhan*
 
 ## 🚀 Features
 
@@ -10,6 +14,8 @@ A comprehensive inventory management system with barcode/QR code scanning capabi
 - **Responsive Design** - Works seamlessly on desktop and mobile devices
 - **Authentication & Authorization** - Role-based access control (Admin, Manager, Staff)
 - **Real-time Updates** - Socket.IO for live inventory updates
+
+*Sistem ini dirancang khusus untuk mendukung operasional CloudBit dalam memberikan layanan internet cepat dan stabil kepada pelanggan.*
 
 ### 📦 Inventory Management
 - **CRUD Operations** - Complete inventory item management
@@ -284,6 +290,22 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Built with ❤️ for efficient inventory management**
+**Built with ❤️ for CloudBit - Internet Cepat & Stabil #pilihCloudBit**
+
+---
+
+### About CloudBit
+
+CloudBit adalah penyedia layanan internet yang mengutamakan kecepatan dan stabilitas koneksi. Kami berkomitmen memberikan:
+
+- **Internet Cepat & Stabil** - Koneksi fiber optic 100%
+- **Unlimited Tanpa FUP** - Akses internet sepuasnya
+- **24/7 Technical Support** - Dukungan teknis sepanjang waktu
+- **Coverage Luas** - Melayani berbagai lokasi strategis
+
+**Hubungi Kami:**
+- Website: [https://cloudbit.net.id](https://cloudbit.net.id)
+- WhatsApp: +62 856-2467-9994
+- Slogan: "Internet Cepat & Stabil #pilihCloudBit"
 
 For detailed setup instructions, see [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)

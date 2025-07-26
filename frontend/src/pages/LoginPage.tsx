@@ -48,8 +48,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 rounded-full mb-4">
             <Scan className="w-8 h-8 text-primary-600" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">ISP Inventory Scanner</h1>
-          <p className="text-gray-600">Sign in to start scanning</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">CloudBit Inventory Scanner</h1>
+          <p className="text-gray-600">Internet Cepat & Stabil #pilihCloudBit</p>
+          <p className="text-sm text-gray-500 mt-1">Sign in to start scanning</p>
         </div>
 
         {/* Login Form */}
@@ -142,6 +143,20 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             <span>📦 Inventory Tracking</span>
             <span>📱 Mobile Scanning</span>
             <span>📊 Real-time Updates</span>
+          </div>
+          
+          {/* CloudBit Branding */}
+          <div className="mt-6 pt-4 border-t border-gray-200">
+            <p className="text-xs text-gray-500 mb-2">Powered by</p>
+            <a 
+              href="https://cloudbit.net.id" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="inline-block text-blue-600 hover:text-blue-700 font-semibold text-sm transition-colors"
+            >
+              CloudBit.net.id
+            </a>
+            <p className="text-xs text-gray-400 mt-1">Internet Cepat & Stabil untuk semua kebutuhan</p>
           </div>
         </div>
       </div>
