@@ -13,6 +13,7 @@ import CategoriesPage from '@/pages/CategoriesPage';
 import SuppliersPage from '@/pages/SuppliersPage';
 import ReportsPage from '@/pages/ReportsPage';
 import AnalyticsPage from '@/pages/AnalyticsPage';
+import AttendancePage from '@/pages/AttendancePage';
 import ProfilePage from '@/pages/ProfilePage';
 
 // Layout
@@ -85,6 +86,7 @@ function AppRoutes() {
           <Route path="/" element={<ScanPage />} />
           <Route path="/scan" element={<ScanPage />} />
           <Route path="/inventory" element={<InventoryPage />} />
+          <Route path="/attendance" element={<AttendancePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
@@ -104,6 +106,7 @@ function AppRoutes() {
         <Route path="/suppliers" element={<SuppliersPage />} />
         <Route path="/reports" element={<ReportsPage />} />
         <Route path="/analytics" element={<AnalyticsPage />} />
+        <Route path="/attendance" element={<AttendancePage />} />
         <Route path="/scan" element={<ScanPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

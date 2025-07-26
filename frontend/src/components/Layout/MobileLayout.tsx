@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { 
   QrCode, 
   Package, 
+  Clock,
   User, 
   LogOut,
   Menu,
@@ -24,6 +25,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
   const navItems = [
     { path: '/scan', icon: QrCode, label: 'Scan', primary: true },
     { path: '/inventory', icon: Package, label: 'Inventory' },
+    { path: '/attendance', icon: Clock, label: 'Presensi' },
     { path: '/profile', icon: User, label: 'Profile' },
   ];
 
@@ -38,7 +40,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
       <header className="bg-white shadow-sm border-b px-4 py-3 flex items-center justify-between relative z-50">
         <div className="flex items-center">
           <h1 className="text-lg font-semibold text-gray-900">
-            ISP Inventory
+            CloudBit Scanner
           </h1>
         </div>
         

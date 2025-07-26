@@ -10,6 +10,7 @@ import {
   FileText,
   BarChart3,
   QrCode,
+  Clock,
   User,
   LogOut,
   Menu,
@@ -38,6 +39,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     { name: 'Suppliers', href: '/suppliers', icon: Truck, current: location.pathname === '/suppliers' },
     { name: 'Reports', href: '/reports', icon: FileText, current: location.pathname === '/reports' },
     { name: 'Analytics', href: '/analytics', icon: BarChart3, current: location.pathname === '/analytics' },
+    { name: 'Attendance', href: '/attendance', icon: Clock, current: location.pathname === '/attendance' },
     { name: 'Scan', href: '/scan', icon: QrCode, current: location.pathname === '/scan' },
   ];
 
@@ -58,7 +60,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             </div>
             {sidebarOpen && (
               <div className="ml-3">
-                <h1 className="text-lg font-semibold text-gray-900">ISP Inventory</h1>
+                <h1 className="text-lg font-semibold text-gray-900">CloudBit Inventory</h1>
               </div>
             )}
           </div>
