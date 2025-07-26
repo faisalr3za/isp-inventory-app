@@ -22,7 +22,12 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({ children }) => {
   const location = useLocation();
   const [showMenu, setShowMenu] = useState(false);
 
-  const navItems = [
+  const navItems = user?.role === 'teknisi' ? [
+    { path: '/good-out-request', icon: QrCode, label: 'Good Out', primary: true },
+    { path: '/inventory', icon: Package, label: 'Inventory' },
+    { path: '/attendance', icon: Clock, label: 'Presensi' },
+    { path: '/profile', icon: User, label: 'Profile' },
+  ] : [
     { path: '/scan', icon: QrCode, label: 'Scan', primary: true },
     { path: '/inventory', icon: Package, label: 'Inventory' },
     { path: '/attendance', icon: Clock, label: 'Presensi' },

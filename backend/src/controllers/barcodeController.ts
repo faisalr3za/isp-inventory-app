@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import { BarcodeService, BarcodeData } from '../services/barcodeService';
 import { InventoryItemModel } from '../models/InventoryItem';
+import { GoodOutRequestModel, CreateGoodOutRequestData } from '../models/GoodOutRequest';
 import asyncHandler from '../middleware/asyncHandler';
+import { io } from '../server';
 
 interface AuthenticatedRequest extends Request {
   user?: {
@@ -251,7 +253,7 @@ const item = await InventoryItemModel.findById(parseInt(itemId));
   // @route   POST /api/barcode/scan
   // @access  Private
   static scanCode = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const { scannedData, action = 'lookup' } = req.body;
+    const { scannedData, action = 'lookup', quantity, usage_description, customer_location } = req.body;
     
     if (!scannedData) {
       return res.status(400).json({
@@ -297,6 +299,14 @@ const item = await InventoryItemModel.findById(parseInt(itemId));
       
       switch (action) {
         case 'stock_in':
+          // Check permission for stock in
+          if (!req.user || !['admin', 'manager'].includes(req.user.role)) {
+            return res.status(403).json({
+              success: false,
+              message: 'Akses ditolak. Hanya admin dan manager yang dapat melakukan stock in.'
+            });
+          }
+          
           actionResult = {
             action: 'stock_in',
             message: 'Siap untuk stock in',
@@ -305,6 +315,14 @@ const item = await InventoryItemModel.findById(parseInt(itemId));
           break;
           
         case 'stock_out':
+          // Check permission for stock out (admin/manager only)
+          if (!req.user || !['admin', 'manager'].includes(req.user.role)) {
+            return res.status(403).json({
+              success: false,
+              message: 'Akses ditolak. Hanya admin dan manager yang dapat melakukan stock out langsung.'
+            });
+          }
+          
           actionResult = {
             action: 'stock_out',
             message: 'Siap untuk stock out',
@@ -312,6 +330,80 @@ const item = await InventoryItemModel.findById(parseInt(itemId));
             current_stock: item.stok
           };
           break;
+          
+        case 'good_out_request':
+          // Teknisi can request good out
+          if (!req.user || req.user.role !== 'teknisi') {
+            return res.status(403).json({
+              success: false,
+              message: 'Akses ditolak. Hanya teknisi yang dapat mengajukan permintaan good out.'
+            });
+          }
+
+          // Validate required fields for good out request
+          if (!usage_description) {
+            return res.status(400).json({
+              success: false,
+              message: 'Keterangan penggunaan barang harus diisi'
+            });
+          }
+
+          // Check stock availability
+          if (item.stok < (quantity || 1)) {
+            return res.status(400).json({
+              success: false,
+              message: `Stok tidak mencukupi. Stok tersedia: ${item.stok}, diminta: ${quantity || 1}`
+            });
+          }
+
+          try {
+            // Create good out request
+            const requestData: CreateGoodOutRequestData = {
+              item_id: item.id!,
+              requested_by: req.user.id,
+              quantity: quantity || 1,
+              reason: `Pemasangan/instalasi - ${usage_description}`,
+              notes: customer_location ? `Lokasi: ${customer_location}` : undefined
+            };
+
+            const newRequest = await GoodOutRequestModel.create(requestData);
+            const requestWithDetails = await GoodOutRequestModel.findById(newRequest.id!);
+
+            // Emit real-time notification to managers/admins
+            io.emit('good_out_request_created', {
+              request: requestWithDetails,
+              message: `Permintaan good out baru dari ${req.user.username}`
+            });
+
+            return res.status(201).json({
+              success: true,
+              message: 'Permintaan good out berhasil dibuat dan menunggu persetujuan',
+              data: {
+                item: {
+                  id: item.id,
+                  nama_barang: item.nama_barang,
+                  sku: item.sku,
+                  stok: item.stok,
+                  kategori: item.kategori_nama,
+                  lokasi_gudang: item.lokasi_gudang
+                },
+                request: requestWithDetails,
+                scan_info: {
+                  type: parsedData.type,
+                  scanned_at: new Date(),
+                  scanned_by: req.user?.id
+                },
+                action: 'good_out_request',
+                message: 'Permintaan dibuat, menunggu approval manager/admin'
+              }
+            });
+          } catch (error) {
+            console.error('Error creating good out request:', error);
+            return res.status(500).json({
+              success: false,
+              message: 'Gagal membuat permintaan good out'
+            });
+          }
           
         case 'lookup':
         default:

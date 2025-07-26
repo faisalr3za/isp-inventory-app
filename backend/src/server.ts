@@ -23,6 +23,7 @@ import activityReportRoutes from './routes/activityReports';
 import uploadRoutes from './routes/upload';
 import barcodeRoutes from './routes/barcode';
 import attendanceRoutes from './routes/attendance';
+import goodOutRequestRoutes from './routes/goodOutRequests';
 
 // S3 Configuration
 import { displayS3Setup, testS3Connection, createS3Bucket } from './config/s3';
@@ -73,6 +74,7 @@ app.use('/api/activity-reports', activityReportRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/barcode', barcodeRoutes);
 app.use('/api/attendance', attendanceRoutes);
+app.use('/api/good-out-requests', goodOutRequestRoutes);
 
 // Socket.IO untuk real-time updates
 io.on('connection', (socket) => {

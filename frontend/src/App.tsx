@@ -15,6 +15,8 @@ import ReportsPage from '@/pages/ReportsPage';
 import AnalyticsPage from '@/pages/AnalyticsPage';
 import AttendancePage from '@/pages/AttendancePage';
 import ManagerAttendancePage from '@/pages/ManagerAttendancePage';
+import GoodOutRequestPage from '@/pages/GoodOutRequestPage';
+import GoodOutApprovalPage from '@/pages/GoodOutApprovalPage';
 import ProfilePage from '@/pages/ProfilePage';
 
 // Layout
@@ -84,8 +86,9 @@ function AppRoutes() {
     return (
       <MobileLayout user={user}>
         <Routes>
-          <Route path="/" element={<ScanPage />} />
+          <Route path="/" element={user?.role === 'teknisi' ? <GoodOutRequestPage user={user} /> : <ScanPage />} />
           <Route path="/scan" element={<ScanPage />} />
+          <Route path="/good-out-request" element={<GoodOutRequestPage user={user} />} />
           <Route path="/inventory" element={<InventoryPage />} />
           <Route path="/attendance" element={<AttendancePage />} />
           <Route path="/profile" element={<ProfilePage />} />
@@ -109,6 +112,8 @@ function AppRoutes() {
         <Route path="/analytics" element={<AnalyticsPage />} />
         <Route path="/attendance" element={<AttendancePage />} />
         <Route path="/manager/attendance" element={<ManagerAttendancePage />} />
+        <Route path="/good-out-request" element={<GoodOutRequestPage user={user} />} />
+        <Route path="/good-out-approval" element={<GoodOutApprovalPage user={user} />} />
         <Route path="/scan" element={<ScanPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

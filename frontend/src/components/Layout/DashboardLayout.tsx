@@ -1,6 +1,7 @@
 import React, { ReactNode, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import NotificationBell from '@/components/NotificationBell';
 import {
   LayoutDashboard,
   Package,
@@ -36,6 +37,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, current: location.pathname === '/dashboard' },
     { name: 'Inventory', href: '/inventory', icon: Package, current: location.pathname === '/inventory' },
     { name: 'Stock Movements', href: '/movements', icon: ArrowUpDown, current: location.pathname === '/movements' },
+    { name: 'Good Out Approval', href: '/good-out-approval', icon: Bell, current: location.pathname === '/good-out-approval', roles: ['admin', 'manager'], description: 'Approve requests for item release' },
     { name: 'Categories', href: '/categories', icon: Tag, current: location.pathname === '/categories' },
     { name: 'Suppliers', href: '/suppliers', icon: Truck, current: location.pathname === '/suppliers' },
     { name: 'Reports', href: '/reports', icon: FileText, current: location.pathname === '/reports' },
@@ -44,20 +46,43 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     { name: 'Scan', href: '/scan', icon: QrCode, current: location.pathname === '/scan' },
   ];
 
-  // Add manager-specific menu for managers and admins
-  const managerNavigation = [
+  // Add admin/manager-specific menu for enhanced access
+  const adminManagerNavigation = [
     { 
       name: 'Manager Dashboard', 
       href: '/manager/attendance', 
       icon: Users, 
       current: location.pathname === '/manager/attendance',
-      roles: ['manager', 'admin'] 
+      roles: ['manager', 'admin'],
+      description: 'Monitor all employee attendance'
     },
   ];
 
+  // Admin gets additional access to advanced features
+  const adminOnlyNavigation = user?.role === 'admin' ? [
+    { 
+      name: 'Admin Panel', 
+      href: '/admin', 
+      icon: Settings, 
+      current: location.pathname.startsWith('/admin'),
+      roles: ['admin'],
+      description: 'System administration'
+    },
+  ] : [];
+
+  // Filter navigation based on user role
+  const filteredBaseNavigation = baseNavigation.filter(item => {
+    // If item has roles requirement, check if user role is included
+    if (item.roles) {
+      return item.roles.includes(user?.role);
+    }
+    return true;
+  });
+
   const navigation = [
-    ...baseNavigation,
-    ...(user?.role === 'manager' || user?.role === 'admin' ? managerNavigation : [])
+    ...filteredBaseNavigation,
+    ...(user?.role === 'manager' || user?.role === 'admin' ? adminManagerNavigation : []),
+    ...adminOnlyNavigation
   ];
 
   const handleLogout = () => {
@@ -198,10 +223,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               </div>
 
               {/* Notifications */}
-              <button className="p-2 text-gray-400 hover:text-gray-600 relative">
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
+              <NotificationBell />
 
               {/* User info */}
               <div className="flex items-center space-x-3">
