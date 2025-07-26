@@ -1,183 +1,289 @@
-# CloudBit ISP Inventory System
+# ISP Inventory Management System
 
-## Struktur Proyek
+A comprehensive inventory management system with barcode/QR code scanning capabilities, built for Internet Service Providers (ISPs) and other businesses requiring efficient inventory tracking.
+
+## 🚀 Features
+
+### ✅ Core Features
+- **Modern Web Application** - Built with React, TypeScript, Node.js
+- **Progressive Web App (PWA)** - Install on mobile devices for offline access
+- **Responsive Design** - Works seamlessly on desktop and mobile devices
+- **Authentication & Authorization** - Role-based access control (Admin, Manager, Staff)
+- **Real-time Updates** - Socket.IO for live inventory updates
+
+### 📦 Inventory Management
+- **CRUD Operations** - Complete inventory item management
+- **Category Management** - Organize items by categories
+- **Supplier Management** - Track suppliers and vendor information
+- **Stock Movement Tracking** - Monitor in/out/adjustment movements
+- **Low Stock Alerts** - Automatic notifications for items below minimum threshold
+
+### 📱 Barcode & QR Code Features
+- **Camera Scanning** - Scan barcodes/QR codes using device camera
+- **Code Generation** - Auto-generate barcodes and QR codes for items
+- **Printable Stickers** - Generate PDF stickers for physical labeling
+- **Bulk Operations** - Generate codes for multiple items at once
+- **Multiple Formats** - Support for CODE128, EAN13, EAN8, QR codes
+
+### 📊 Reports & Analytics
+- **Stock Opname Report** - Complete inventory status overview
+- **Stock Variance Report** - Track discrepancies and adjustments
+- **Monthly Movement Report** - Analyze inventory movements over time
+- **Analytics Dashboard** - Key metrics and insights
+- **Stock Aging Report** - Identify slow-moving inventory
+- **CSV Export** - Export all reports to CSV format
+
+### 🔧 Technical Features
+- **RESTful API** - Well-documented REST endpoints
+- **Database Migrations** - Structured database versioning
+- **File Upload Support** - Item images and document attachments
+- **Rate Limiting** - API protection and abuse prevention
+- **Error Handling** - Comprehensive error management
+- **Health Monitoring** - Application health check endpoints
+- **Docker Support** - Easy deployment with Docker Compose
+
+## 🏗️ Architecture
 
 ```
-isp-inventory-app/
-├── backend/                 # Node.js API Server
-│   ├── src/
-│   │   ├── controllers/     # Request handlers
-│   │   ├── models/         # Database models
-│   │   ├── routes/         # API routes
-│   │   ├── middleware/     # Auth, validation, etc
-│   │   ├── services/       # Business logic
-│   │   ├── utils/          # Helper functions
-│   │   └── config/         # Configuration files
-│   ├── tests/              # Unit & integration tests
-│   └── public/uploads/     # File uploads (temp)
-│
-├── frontend/               # React Web App
-│   ├── src/
-│   │   ├── components/     # Reusable components
-│   │   ├── pages/          # Page components
-│   │   ├── hooks/          # Custom React hooks
-│   │   ├── utils/          # Helper functions
-│   │   ├── services/       # API calls
-│   │   └── assets/         # Static assets
-│   └── public/             # Public files
-│
-├── mobile/                 # React Native App
-│   ├── src/
-│   │   ├── screens/        # Mobile screens
-│   │   ├── components/     # Mobile components
-│   │   ├── services/       # API & storage
-│   │   ├── utils/          # Helper functions
-│   │   └── assets/         # Images, fonts
-│   ├── android/            # Android specific
-│   └── ios/                # iOS specific
-│
-├── database/               # Database scripts
-│   ├── migrations/         # Schema migrations
-│   ├── seeders/           # Sample data
-│   └── schemas/           # SQL schemas
-│
-└── docs/                   # Documentation
-    ├── api/               # API documentation
-    ├── user-manual/       # User guides
-    └── deployment/        # Deployment guides
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   Backend API   │    │   Database      │
+│   (React PWA)   │◄──►│   (Node.js)     │◄──►│   (PostgreSQL)  │
+│   Port: 3000    │    │   Port: 5000    │    │   Port: 5432    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Nginx         │    │   File Storage  │    │   Redis Cache   │
+│   (Reverse      │    │   (uploads/)    │    │   (Optional)    │
+│   Proxy)        │    │                 │    │   Port: 6379    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- **Backend**: Node.js + Express.js + TypeScript
-- **Frontend**: React + TypeScript + Vite
-- **Mobile**: React Native + TypeScript
-- **Database**: PostgreSQL
-- **Storage**: IDCloudHost S3
-- **Auth**: JWT + bcrypt
-- **Real-time**: Socket.IO
+### Frontend
+- **React 18** - Modern React with hooks
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **Vite** - Fast build tool and development server
+- **React Query** - Server state management
+- **React Hook Form** - Form handling
+- **Lucide React** - Modern icon library
+- **PWA Support** - Service workers and manifest
 
-## Features
+### Backend
+- **Node.js** - JavaScript runtime
+- **Express.js** - Web application framework
+- **TypeScript** - Type-safe server development
+- **PostgreSQL** - Relational database
+- **Knex.js** - SQL query builder and migrations
+- **JWT** - JSON Web Token authentication
+- **Socket.IO** - Real-time communication
+- **Multer** - File upload handling
+- **Sharp** - Image processing
+- **Canvas & JsBarcode** - Barcode generation
+- **QRCode** - QR code generation
+- **PDFKit** - PDF generation
 
-### ✅ Inventory Management (Completed)
-- **Categories Management**: CRUD operations untuk kategori inventory
-- **Suppliers Management**: Data supplier dan vendor
-- **Items Management**: 
-  - SKU-based tracking
-  - Multi-category support
-  - Stock levels (minimum/maximum)
-  - Condition tracking (new, good, fair, poor, damaged)
-  - Location-based inventory
-  - Barcode & serial number support
-  - Specifications & notes
-- **Stock Management**:
-  - Stock in/out movements
-  - Stock adjustments
-  - Movement history & audit trail
-  - Low stock alerts
-  - Real-time stock updates (Socket.IO)
+### DevOps & Deployment
+- **Docker** - Containerization
+- **Docker Compose** - Multi-container orchestration
+- **Nginx** - Reverse proxy and static file serving
+- **PM2** - Process management (optional)
 
-### 🔐 Authentication & Security
-- JWT-based authentication
-- Password hashing with bcrypt
-- Rate limiting
-- CORS protection
-- Helmet security headers
+## 📋 Prerequisites
 
-### 📊 Coming Soon
-- Reports & Analytics
-- Customer Management
-- Order Management
-- Barcode Scanning (Mobile)
-- WhatsApp Notifications
-- Advanced Search & Filtering
+- **Node.js** 18+ 
+- **Docker & Docker Compose** (recommended)
+- **PostgreSQL** 15+ (if not using Docker)
+- **Git**
 
-## Quick Start
+## 🚀 Quick Start
 
-### Automatic Setup (Recommended)
+### 1. Clone Repository
 ```bash
-# Clone repository
-git clone https://github.com/your-repo/isp-inventory-app.git
+git clone https://github.com/your-username/isp-inventory-app.git
 cd isp-inventory-app
-
-# Run automatic setup
-./setup-dev.sh
-
-# Start development servers
-cd backend && npm run dev
-# In another terminal:
-cd frontend && npm run dev
 ```
 
-### Manual Setup
-1. Setup PostgreSQL database
-2. Copy `backend/.env.example` to `backend/.env`
-3. Configure database connection in `.env`
-4. Install dependencies: `cd backend && npm install`
-5. Run migrations: `npm run migrate`
-6. Run seeders: `npm run seed`
-7. Start server: `npm run dev`
+### 2. Environment Setup
+```bash
+# Copy environment template
+cp .env.example .env
 
-## API Endpoints
+# Edit with your configuration
+nano .env
+```
 
-### Authentication
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
-
-### Categories
-- `GET /api/categories` - Get all categories
-- `POST /api/categories` - Create category
-- `GET /api/categories/:id` - Get category by ID
-- `PUT /api/categories/:id` - Update category
-- `DELETE /api/categories/:id` - Delete category
-
-### Suppliers
-- `GET /api/suppliers` - Get all suppliers
-- `POST /api/suppliers` - Create supplier
-- `GET /api/suppliers/:id` - Get supplier by ID
-- `PUT /api/suppliers/:id` - Update supplier
-- `DELETE /api/suppliers/:id` - Delete supplier
-
-### Inventory Items
-- `GET /api/inventory` - Get all items (with filters)
-- `POST /api/inventory` - Create new item
-- `GET /api/inventory/:id` - Get item by ID
-- `PUT /api/inventory/:id` - Update item
-- `DELETE /api/inventory/:id` - Delete item
-- `POST /api/inventory/:id/adjust-stock` - Adjust stock
-- `GET /api/inventory/low-stock` - Get low stock items
-
-### Inventory Movements
-- `GET /api/inventory/movements` - Get all movements (with filters)
-- `GET /api/inventory/:id/movements` - Get movements for specific item
-- `GET /api/inventory/movements/stats` - Get movement statistics
-
-## Database Schema
-
-### Core Tables
-- `users` - User accounts
-- `categories` - Inventory categories
-- `suppliers` - Supplier information
-- `inventory_items` - Main inventory items
-- `inventory_movements` - Stock movement history
-
-## Environment Variables
-
-Pastikan file `.env` tersedia di folder backend dengan konfigurasi yang sesuai:
-
+Required environment variables:
 ```env
 # Database
 DB_HOST=localhost
 DB_PORT=5432
-DB_NAME=cloudbit_inventory
+DB_NAME=inventory_management
 DB_USER=postgres
-DB_PASSWORD=your_password
+DB_PASSWORD=your_secure_password
 
-# JWT
-JWT_SECRET=your_super_secret_jwt_key_here
-JWT_EXPIRES_IN=7d
+# JWT Secret (minimum 32 characters)
+JWT_SECRET=your_super_secure_jwt_secret_key_minimum_32_characters
 
-# Server
-PORT=3000
-FRONTEND_URL=http://localhost:5173
+# Application
+NODE_ENV=production
+PORT=5000
+FRONTEND_URL=http://localhost:3000
 ```
+
+### 3. Docker Deployment (Recommended)
+```bash
+# Start all services
+docker-compose up -d
+
+# Check status
+docker-compose ps
+
+# View logs
+docker-compose logs -f backend
+```
+
+### 4. Manual Setup (Alternative)
+```bash
+# Backend setup
+cd backend
+npm install
+npm run migrate
+npm start
+
+# Frontend setup (new terminal)
+cd frontend
+npm install
+npm run build
+npm run preview
+```
+
+## 📱 Usage
+
+### Web Application
+- **Desktop Dashboard**: http://localhost:3000/dashboard
+- **Mobile PWA**: http://localhost:3000 (install as PWA)
+
+### API Endpoints
+- **Health Check**: http://localhost:5000/health
+- **API Documentation**: See `API_DOCUMENTATION.md`
+
+### Default Credentials
+```
+Admin: admin@company.com / admin123
+Manager: manager@company.com / manager123  
+Staff: staff@company.com / staff123
+```
+
+## 📖 Documentation
+
+- **[API Documentation](API_DOCUMENTATION.md)** - Complete API reference
+- **[Deployment Guide](DEPLOYMENT_GUIDE.md)** - Production deployment instructions
+- **[Barcode API](BARCODE_API.md)** - Barcode/QR code functionality
+- **[Activity Reports](ACTIVITY_REPORTS_API.md)** - Reporting system details
+
+## 🔧 Development
+
+### Local Development
+```bash
+# Backend development
+cd backend
+npm run dev
+
+# Frontend development
+cd frontend  
+npm run dev
+```
+
+### Database Operations
+```bash
+# Run migrations
+npm run migrate
+
+# Rollback migration
+npm run rollback
+
+# Create new migration
+npm run make:migration migration_name
+
+# Seed database
+npm run seed
+```
+
+### Build for Production
+```bash
+# Backend
+cd backend
+npm run build
+
+# Frontend
+cd frontend
+npm run build
+```
+
+## 📊 Features Overview
+
+### Mobile PWA Features
+- 📱 **Home Screen Installation** - Add to device home screen
+- 🔍 **Barcode Scanner** - Camera-based scanning
+- 📦 **Quick Inventory** - View and search items
+- 👤 **User Profile** - Account management
+- 🔄 **Offline Support** - Basic functionality without internet
+
+### Desktop Dashboard Features  
+- 📊 **Analytics Dashboard** - Key metrics and charts
+- 📦 **Inventory Management** - Full CRUD operations
+- 📈 **Stock Movements** - Movement history and tracking
+- 🏷️ **Categories & Suppliers** - Master data management
+- 📋 **Comprehensive Reports** - Various report types
+- 🔍 **Advanced Search** - Filter and search capabilities
+- 👥 **User Management** - Role-based access control
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+### Common Issues
+- **Database Connection**: Check PostgreSQL service and credentials
+- **File Permissions**: Ensure uploads directory is writable
+- **Port Conflicts**: Check if ports 3000, 5000, 5432 are available
+- **PWA Installation**: Use HTTPS in production for PWA features
+
+### Getting Help
+1. Check existing [Issues](https://github.com/your-username/isp-inventory-app/issues)
+2. Review documentation files
+3. Create a new issue with detailed information
+
+## 🎯 Roadmap
+
+- [ ] **Mobile App** - React Native version
+- [ ] **Advanced Analytics** - More detailed reporting
+- [ ] **Multi-location Support** - Multiple warehouse locations
+- [ ] **Integrations** - Third-party system integrations
+- [ ] **Automated Reordering** - Smart stock replenishment
+- [ ] **Audit Trail** - Complete change tracking
+
+## 👥 Team
+
+- **Backend Development** - Node.js, PostgreSQL, API design
+- **Frontend Development** - React, TypeScript, PWA implementation  
+- **DevOps** - Docker, deployment, CI/CD
+- **QA & Testing** - Testing strategies and quality assurance
+
+---
+
+**Built with ❤️ for efficient inventory management**
+
+For detailed setup instructions, see [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)
