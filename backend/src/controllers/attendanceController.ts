@@ -299,6 +299,110 @@ export const getAttendanceStats = async (req: Request, res: Response) => {
   }
 };
 
+// Manager: Get attendance summary
+export const getAttendanceSummary = async (req: Request, res: Response) => {
+  try {
+    const { date } = req.query;
+    const targetDate = date ? String(date) : moment().format('YYYY-MM-DD');
+
+    // Get total employees count
+    const totalEmployees = await db('users').count('* as count').first();
+    const total = parseInt(totalEmployees?.count as string) || 0;
+
+    // Get attendance for the specific date
+    const attendanceRecords = await db('attendance')
+      .where('attendance_date', targetDate);
+
+    const presentToday = attendanceRecords.filter(a => a.status === 'present').length;
+    const lateToday = attendanceRecords.filter(a => a.status === 'late').length;
+    const absentToday = total - attendanceRecords.length;
+    
+    // Calculate average work hours
+    const totalWorkHours = attendanceRecords.reduce((sum, record) => {
+      return sum + (record.work_hours || 0);
+    }, 0);
+    const averageWorkHours = attendanceRecords.length > 0 
+      ? Math.round(totalWorkHours / attendanceRecords.length) 
+      : 0;
+
+    // Calculate attendance rate
+    const attendanceRate = total > 0 
+      ? Math.round(((presentToday + lateToday) / total) * 100) 
+      : 0;
+
+    const summary = {
+      total_employees: total,
+      present_today: presentToday,
+      late_today: lateToday,
+      absent_today: absentToday,
+      average_work_hours: averageWorkHours,
+      attendance_rate: attendanceRate
+    };
+
+    res.json({
+      success: true,
+      data: summary
+    });
+  } catch (error) {
+    console.error('Error getting attendance summary:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get attendance summary'
+    });
+  }
+};
+
+// Manager: Get department statistics
+export const getDepartmentStats = async (req: Request, res: Response) => {
+  try {
+    const { date } = req.query;
+    const targetDate = date ? String(date) : moment().format('YYYY-MM-DD');
+
+    // Get department statistics (assuming role as department)
+    const departmentStats = await db('users')
+      .select('role as department')
+      .count('* as total')
+      .leftJoin('attendance', function() {
+        this.on('users.id', '=', 'attendance.user_id')
+            .andOn('attendance.attendance_date', '=', db.raw('?', [targetDate]));
+      })
+      .select(
+        db.raw('COUNT(CASE WHEN attendance.status = \'present\' THEN 1 END) as present'),
+        db.raw('COUNT(CASE WHEN attendance.status = \'late\' THEN 1 END) as late'),
+        db.raw('COUNT(CASE WHEN attendance.id IS NULL THEN 1 END) as absent')
+      )
+      .groupBy('users.role');
+
+    const formattedStats = departmentStats.map(dept => {
+      const total = parseInt(dept.total as string) || 0;
+      const present = parseInt(dept.present as string) || 0;
+      const late = parseInt(dept.late as string) || 0;
+      const absent = parseInt(dept.absent as string) || 0;
+      const rate = total > 0 ? Math.round(((present + late) / total) * 100) : 0;
+
+      return {
+        department: dept.department || 'Unknown',
+        total,
+        present,
+        late,
+        absent,
+        rate
+      };
+    });
+
+    res.json({
+      success: true,
+      data: formattedStats
+    });
+  } catch (error) {
+    console.error('Error getting department stats:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get department statistics'
+    });
+  }
+};
+
 // Admin: Get all users attendance
 export const getAllAttendance = async (req: Request, res: Response) => {
   try {

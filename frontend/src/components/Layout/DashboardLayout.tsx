@@ -11,6 +11,7 @@ import {
   BarChart3,
   QrCode,
   Clock,
+  Users,
   User,
   LogOut,
   Menu,
@@ -31,7 +32,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
-  const navigation = [
+  const baseNavigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, current: location.pathname === '/dashboard' },
     { name: 'Inventory', href: '/inventory', icon: Package, current: location.pathname === '/inventory' },
     { name: 'Stock Movements', href: '/movements', icon: ArrowUpDown, current: location.pathname === '/movements' },
@@ -41,6 +42,22 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     { name: 'Analytics', href: '/analytics', icon: BarChart3, current: location.pathname === '/analytics' },
     { name: 'Attendance', href: '/attendance', icon: Clock, current: location.pathname === '/attendance' },
     { name: 'Scan', href: '/scan', icon: QrCode, current: location.pathname === '/scan' },
+  ];
+
+  // Add manager-specific menu for managers and admins
+  const managerNavigation = [
+    { 
+      name: 'Manager Dashboard', 
+      href: '/manager/attendance', 
+      icon: Users, 
+      current: location.pathname === '/manager/attendance',
+      roles: ['manager', 'admin'] 
+    },
+  ];
+
+  const navigation = [
+    ...baseNavigation,
+    ...(user?.role === 'manager' || user?.role === 'admin' ? managerNavigation : [])
   ];
 
   const handleLogout = () => {
